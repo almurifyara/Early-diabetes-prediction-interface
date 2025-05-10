@@ -60,7 +60,7 @@ weight = st.number_input("Weight (kg)", min_value=20.0, max_value=200.0)
 bmi = weight / ((height / 100) ** 2) if height > 0 else np.nan
 st.info(f"Calculated BMI: **{bmi:.2f}**")
 
-hba1c = st.number_input("HbA1c Level (%) (Optional)", min_value=0.0, max_value=15.0)
+hba1c = st.number_input("HbA1c Level (%)", min_value=0.0, max_value=15.0)
 hba1c_val = hba1c if hba1c > 0 else np.nan
 
 blood_glucose_level = st.number_input("Blood Glucose Level (mg/dL)", min_value=50.0, max_value=500.0)
