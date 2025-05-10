@@ -81,22 +81,22 @@ if st.button("Predict Diabetes Risk"):
 
     # --- Risk Classification
     if 0 <= probability < 25:
-        risk_text = "Maintenance Plan (Low Risk)"
+        risk_text = "Low Risk"
         image = img_low
     elif 25 <= probability < 50:
-        risk_text = "Improvement Plan (Moderate Risk)"
+        risk_text = "Moderate Risk"
         image = img_moderate
     elif 50 <= probability < 75:
-        risk_text = "Mitigation Plan (High Risk)"
+        risk_text = "High Risk"
         image = img_high
     else:
-        risk_text = "Intervention Plan (Very High Risk)"
+        risk_text = "Very High Risk"
         image = img_very_high
 
     # --- Output
-    st.markdown(f"### 🩺 Risk Stage: **{risk_text}**")
+    st.markdown(f"Risk Stage: **{risk_text}**")
     st.markdown(f"**Predicted Diabetes Risk Probability:** {probability:.2f}%")
-    st.markdown("📋 Here’s a recommended lifestyle plan based on your result:")
+    st.markdown("Here’s a recommended lifestyle plan based on your result:")
 
     if image:
         st.image(image, use_container_width=True)
