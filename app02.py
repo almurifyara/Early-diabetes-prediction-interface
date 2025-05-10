@@ -94,7 +94,7 @@ if st.button("Predict Diabetes Risk"):
         image = img_very_high
 
     # --- Output
-    st.markdown(f"###Risk Stage: **{risk_text}**")
+    st.markdown(f"### Risk Stage: **{risk_text}**")
     st.markdown(f"**Predicted Diabetes Risk Probability:** {probability:.2f}%")
     st.markdown("Here’s a recommended lifestyle plan based on your result:")
 
