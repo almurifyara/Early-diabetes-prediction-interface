@@ -103,14 +103,3 @@ if st.button("Predict Diabetes Risk"):
     else:
         st.warning("⚠️ Lifestyle plan image not found.")
 
-    # --- SHAP Explanation ---
-    try:
-        explainer = shap.Explainer(diabetes_model.predict, input_data)
-        shap_values = explainer(input_data)
-
-        st.subheader(" Explanation: Why this result?")
-        fig, ax = plt.subplots(figsize=(8, 4))
-        shap.plots.waterfall(shap_values[0], max_display=8, show=False)
-        st.pyplot(fig)
-    except Exception as e:
-        st.warning(f"⚠️ SHAP explainability failed: {e}")
