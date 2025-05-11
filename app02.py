@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import joblib
 import numpy as np
-from PIL import Image
-import os
+
 
 # --- Load Model ---
 try:
