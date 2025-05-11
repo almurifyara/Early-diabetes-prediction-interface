@@ -1,9 +1,8 @@
-import shap
-import matplotlib.pyplot as plt
 import streamlit as st
 import joblib
 import numpy as np
-
+from PIL import Image
+import os
 
 # --- Load Model ---
 try:
@@ -13,7 +12,7 @@ except Exception as e:
     st.error(f"Error loading model: {e}")
     st.stop()
 
-# --- Load Images ---
+# --- Load Images (from same folder as script) ---
 def load_image(filename):
     try:
         return Image.open(os.path.join(os.path.dirname(__file__), filename))
@@ -56,6 +55,7 @@ smoking = smoking_map[smoking_input]
 st.subheader("2. Body Metrics")
 height = st.number_input("Height (cm)", min_value=50.0, max_value=250.0)
 weight = st.number_input("Weight (kg)", min_value=20.0, max_value=200.0)
+
 bmi = weight / ((height / 100) ** 2) if height > 0 else np.nan
 st.info(f"Calculated BMI: **{bmi:.2f}**")
 
@@ -64,11 +64,11 @@ hba1c_val = hba1c if hba1c > 0 else np.nan
 
 blood_glucose_level = st.number_input("Blood Glucose Level (mg/dL)", min_value=50.0, max_value=500.0)
 
-# --- Prediction Section ---
+# --- Prediction ---
 if st.button("Predict Diabetes Risk"):
     input_data = np.array([[gender, age, hypertension_val, heart_disease_val,
                             smoking, bmi, hba1c_val, blood_glucose_level]])
-    
+
     col_means = np.nanmean(input_data, axis=0)
     input_data = np.where(np.isnan(input_data), col_means, input_data)
 
@@ -78,7 +78,7 @@ if st.button("Predict Diabetes Risk"):
         st.error(f"Prediction failed: {e}")
         st.stop()
 
-    # --- Risk Classification
+    # --- Risk Classification ---
     if 0 <= probability < 25:
         risk_text = "Low Risk"
         image = img_low
@@ -92,7 +92,7 @@ if st.button("Predict Diabetes Risk"):
         risk_text = "Very High Risk"
         image = img_very_high
 
-    # --- Output
+    # --- Output ---
     st.markdown(f"### Risk Stage: **{risk_text}**")
     st.markdown(f"**Predicted Diabetes Risk Probability:** {probability:.2f}%")
     st.markdown("Here’s a recommended lifestyle plan based on your result:")
@@ -101,4 +101,3 @@ if st.button("Predict Diabetes Risk"):
         st.image(image, use_container_width=True)
     else:
         st.warning("⚠️ Lifestyle plan image not found.")
-
