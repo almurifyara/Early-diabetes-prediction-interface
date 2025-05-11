@@ -3,6 +3,3 @@ scikit-learn
 joblib
 numpy
 Pillow
-shap
-matplotlib
-
