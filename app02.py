@@ -17,7 +17,7 @@ def load_image(filename):
     try:
         return Image.open(os.path.join(os.path.dirname(__file__), filename))
     except Exception as e:
-        st.warning(f"⚠️ Could not load {filename} — {e}")
+        st.warning(f"Could not load {filename} — {e}")
         return None
 
 img_low = load_image("Maintenance Plan.png")
@@ -33,7 +33,7 @@ st.subheader("1. Personal Information")
 gender_input = st.selectbox("Gender", ["Male", "Female"], index=0)
 gender = 0 if gender_input == "Male" else 1
 
-age = st.number_input("Age", min_value=1, max_value=120, value=0)
+age = st.number_input("Age", min_value=0, max_value=120, value=0)
 
 # --- Section 2: Medical History ---
 hypertension = st.selectbox("Hypertension", ["Yes", "No"], index=1)
@@ -53,14 +53,14 @@ smoking = smoking_map[smoking_input]
 
 # --- Section 3: Body Metrics ---
 st.subheader("2. Body Metrics")
-height = st.number_input("Height (cm)", min_value=50.0, max_value=250.0, value=0.0)
-weight = st.number_input("Weight (kg)", min_value=20.0, max_value=200.0, value=0.0)
+height = st.number_input("Height (cm)", min_value=0.0, max_value=250.0, value=0.0)
+weight = st.number_input("Weight (kg)", min_value=0.0, max_value=200.0, value=0.0)
 
 bmi = weight / ((height / 100) ** 2) if height > 0 else np.nan
 st.info(f"Calculated BMI: **{bmi:.2f}**" if not np.isnan(bmi) else "BMI: Not available")
 
 hba1c = st.number_input("HbA1c Level (%)", min_value=0.0, max_value=15.0, value=0.0)
-blood_glucose_level = st.number_input("Blood Glucose Level (mg/dL)", min_value=50.0, max_value=500.0, value=0.0)
+blood_glucose_level = st.number_input("Blood Glucose Level (mg/dL)", min_value=0.0, max_value=500.0, value=0.0)
 
 # --- Prediction ---
 if st.button("Predict Diabetes Risk"):
@@ -79,7 +79,7 @@ if st.button("Predict Diabetes Risk"):
 
     # --- Rule-Based Override ---
     if hba1c >= 6.5 or blood_glucose_level >= 140:
-        probability = 90.0
+        probability = 100.0
         risk_text = "Very High Risk"
         image = img_very_high
     elif 5.7 <= hba1c <= 6.4 or 117 <= blood_glucose_level < 140:
@@ -115,4 +115,3 @@ if st.button("Predict Diabetes Risk"):
         st.image(image, use_container_width=True)
     else:
         st.warning("Lifestyle plan image not found.")
-
